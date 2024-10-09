@@ -1,0 +1,60 @@
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    {% block page-title %}
+    <title>Shardboard</title>
+    {% endblock %}
+    <meta name="viewport" content="width=device-width">
+    <meta property="og:title" content="Shardboard">
+    <meta property="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.19/jquery.touchSwipe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.min.js"></script>
+    <link rel="icon" sizes="16x16 32x32 48x48 64x64" href="{% static "images/favicon.ico" %}" type="image/vnd.microsoft.icon">
+    {% block head-content %}
+    {% endblock %}
+    {{ ga_code|safe }}
+</head>
+<body>
+    <nav>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="button">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="button">Login</a>
+        {% endif %}
+    </nav>
+    <script>
+    {% if team %}
+        //openSocket('/ws/team', showNotify);
+    {% endif %}
+    {% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        toastr.error("{{ message|escapejs }}");
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+        toastr.warning("{{ message|escapejs }}");
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        toastr.success("{{ message|escapejs }}");
+        {% else %}
+        showNotify("{{ message|escapejs }}");
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    </script>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    <footer>
+        <hr>
+        Powered by <a href="https://github.com/17Spuzzleteam/Shardboard">Shardboard</a>.
+    </footer>
+</body>
+</html>

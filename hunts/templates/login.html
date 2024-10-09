@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Login</h2>
+
+<form id="login" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div>
+        {% for field in form %}
+        <div>
+            <div>
+                {% if field.name == 'username' %}
+                    Hunt Name:
+                {% else %}
+                    {{ field.label_tag }}
+                {% endif %}
+            </div>
+            <div>
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+
+{% endblock %}

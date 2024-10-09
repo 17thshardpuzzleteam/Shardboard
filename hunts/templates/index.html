@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <ul>
+            {% for hunt in hunts %}
+              <li>{{ hunt.name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <h1>Welcome to Shardboard!</h1>
+    <div>
+        Shardboard is the 17th Shard's web dashboard for viewing and managing puzzles during puzzlehunts. It
+        is integrated with our lovely Discord bot, M-Bot. If you're looking for a specific hunt
+        dashboard, <a href="{% url 'login' %}">log in</a> using the hunt name and password provided by the bot
+        when you run `!login` in a hunt channel.
+    {% endif %}
+    </div>
+{% endblock %}

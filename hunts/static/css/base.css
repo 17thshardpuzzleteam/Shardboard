@@ -1,0 +1,62 @@
+:root {
+    --text-color: black;
+    --accent-color: #bbbbbb;
+    --input-focus-color: #dddddd;
+    --off-white: #f9f8f5;
+    --text-heading-color: black;
+    --solved-color: #d4af37 /*#4a2*/;
+    --partial-color: blue /*#4a2*/;
+    --text-heading-font: "Courier Prime";
+    --body-font: "Noto Sans";
+    --max-width: 960px;
+}
+
+body {
+    font-family: var(--body-font);
+    overflow-wrap: break-word;
+    position: relative;
+}
+
+nav {
+    display: flex;
+    margin: auto;
+    padding-top: 5px;
+    justify-content: flex-end;
+    font-family: var(--body-font);
+    width: 80%;
+    max-width: var(--max-width);
+}
+
+.content {
+    display: block;
+    margin: auto;
+    width: 80%;
+    max-width: var(--max-width);
+}
+
+footer {
+    margin-top: 3em;
+    text-align: center;
+}
+
+a {
+    color: var(--text-color);
+}
+
+a.button {
+    display: inline-block;
+    padding: 0 12px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: none;
+    letter-spacing: 0;
+    border: 3px solid var(--text-color);
+    height: 30px;
+    line-height: 30px;
+    font-size: 1.2rem;
+    transition: background-color 0.2s;
+}
+
+a.button:hover {
+    background-color: var(--accent-color);
+}
