@@ -1,12 +1,42 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
     {% if request.user.is_authenticated %}
-        <ul>
-            {% for hunt in hunts %}
-              <li>{{ hunt.name }}</li>
+        <table class="puzzle-table">
+            <tr class="puzzle-table-row header">
+                <td>Round</td>
+                <td>Puzzle</td>
+                <td>Answer</td>
+                <td>Priority</td>
+                <td>Links</td>
+            </tr>
+            {% for puzzle in puzzles %}
+              <tr class="puzzle-table-row">
+                <td>
+                    {% for round in puzzle.rounds.all %}
+                        {{ round.marker }}
+                    {% endfor %}
+                </td>
+                <td>{{ puzzle.name }}</td>
+                <td><div class="answer">{% if puzzle.answer is not None %}{{ puzzle.answer.upper }}{% endif %}</div></td>
+                <td>{{ puzzle.priority }}</td>
+                <td>
+                    <div class="links">
+                        <a href="{{ puzzle.spreadsheet_link }}" target="_blank">
+                            <img class="icon" src="{% static 'images/sheets_icon.png' %}" alt="Spreadsheet" title="Spreadsheet">
+                        </a>
+                        <a href="https://discord.com/channels/{{ puzzle.hunt.guild_id }}/{{ puzzle.channel_id }}" target="_blank">
+                            <img class="icon" src="{% static 'images/text_channel_icon.png' %}" alt="Text channel" title="Text channel">
+                        </a>
+                        <a href="https://discord.com/channels/{{ puzzle.hunt.guild_id }}/{{ puzzle.voice_channel_id }}" target="_blank">
+                            <img class="icon" src="{% static 'images/voice_channel_icon.png' %}" alt="Voice channel" title="Voice channel">
+                        </a>
+                    </div>
+                </td>
+              </tr>
             {% endfor %}
-        </ul>
+        </table>
     {% else %}
     <h1>Welcome to Shardboard!</h1>
     <div>
