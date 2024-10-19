@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -14,13 +15,57 @@ class Hunt(models.Model):
     team_name = models.CharField(max_length=255, verbose_name='Team Name', null=True)
     is_bighunt = models.BooleanField(verbose_name="Is Bighunt?")
     logfeed = models.IntegerField(verbose_name="Logfeed Channel ID", null=True)
+    web_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['guild_id', 'category_id'], name='unique_guild_name_combination'
+                fields=['guild_id', 'category_id'], name='unique_guild_hunt_category_combination'
             )
         ]
 
-    def __str__(self):
-        return self.name
+
+class Round(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Name')
+    marker = models.CharField(max_length=7, verbose_name='Marker')
+    category_id = models.IntegerField(verbose_name='Round Category ID')
+    hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['hunt', 'name'], name='unique_hunt_round_combination'
+            ),
+            models.UniqueConstraint(
+                fields=['hunt', 'marker'], name='unique_hunt_marker_combination'
+            ),
+            models.UniqueConstraint(
+                fields=['hunt', 'category_id'], name='unique_hunt_category_combination'
+            )
+        ]
+
+
+class Puzzle(models.Model):
+    name = models.CharField(max_length=511, verbose_name='Name')
+    channel_id = models.IntegerField(verbose_name='Channel ID')
+    voice_channel_id = models.IntegerField(verbose_name='Voice Channel ID', null=True)
+    answer = models.CharField(max_length=255, verbose_name='Answer', null=True)
+    spreadsheet_link = models.CharField(max_length=255, verbose_name='Spreadsheet Link')
+    priority = models.CharField(max_length=15, verbose_name='Priority')
+    notes = models.CharField(max_length=511, verbose_name='Notes', null=True)
+    unlock_time = models.DateTimeField(verbose_name='Unlock Time')
+    solve_time = models.DateTimeField(verbose_name='Solve Time', null=True)
+    is_meta = models.BooleanField(verbose_name='Is Meta?', default=False)
+    hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
+    rounds = models.ManyToManyField(Round)
+    metas = models.ManyToManyField('self', symmetrical=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['hunt', 'name'], name='unique_hunt_puzzle_combination'
+            ),
+            models.UniqueConstraint(
+                fields=['hunt', 'channel_id'], name='unique_hunt_channel_combination'
+            )
+        ]
