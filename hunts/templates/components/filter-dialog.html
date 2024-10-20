@@ -1,0 +1,94 @@
+<div id="filter-dialog" class="filter-dialog">
+    <div>
+        <label for="filter-round">Round:</label>
+        <select id="filter-round">
+            <option value="__all">All</option>
+            {% for round in rounds %}
+                <option value="{{ round.marker }}">{{ round.marker }} {{ round.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="filter-priority">Priority:</label>
+        <select id="filter-priority">
+            <option value="__all">All</option>
+            <option value="New">New</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+        <label for="filter-solved">Solved:</label>
+        <select id="filter-solved">
+            <option value="__all">All</option>
+            <option value="Unsolved">Unsolved</option>
+            <option value="Solved">Solved</option>
+        </select>
+    </div>
+</div>
+<script type="text/javascript">
+    const button = document.getElementById('filter-button');
+    const dialog = document.getElementById('filter-dialog');
+
+    const filterRound = document.getElementById('filter-round');
+    filterRound.addEventListener('change', () => {
+        setFilter('round', filterRound.value);
+        applyFilter();
+    });
+
+    const filterPriority = document.getElementById('filter-priority');
+    filterPriority.addEventListener('change', () => {
+        setFilter('priority', filterPriority.value);
+        applyFilter();
+    });
+
+    const filterSolved = document.getElementById('filter-solved');
+    filterSolved.addEventListener('change', () => {
+        setFilter('solved', filterSolved.value);
+        applyFilter();
+    });
+
+    function getFilters() {
+        return JSON.parse(localStorage.getItem('filters') ?? '{}');
+    }
+
+    function setFilter(filterType, item) {
+        const filters = getFilters();
+        filters[filterType] = item;
+        localStorage.setItem('filters', JSON.stringify(filters));
+    }
+
+    function applyFilter() {
+        for (const child of document.getElementById('puzzle-table').children[0].children) {
+            if (child.id !== 'puzzle-table-header') {
+                const cells = child.children;
+                let show = true;
+                show &= matchesFilter('round', cells[0].textContent.trim());
+                show &= matchesFilter('priority', cells[3].textContent.trim());
+                show &= matchesSolvedFilter(cells[3].textContent.trim());
+
+                if (show) {
+                    child.style.display = null;
+                } else {
+                    child.style.display = 'none';
+                }
+            }
+        }
+    }
+
+    function matchesFilter(filterType, item) {
+        const filters = getFilters();
+        return !filters[filterType] || filters[filterType] === '__all' || filters[filterType] === item;
+    }
+
+    function matchesSolvedFilter(item) {
+        const filters = getFilters();
+        return !filters['solved'] || filters['solved'] === '__all' ||
+            (filters['solved'] === 'Solved' && item === 'Solved') || (filters['solved'] === 'Unsolved' && item !== 'Solved');
+    }
+
+    window.onload = () => {
+        const filters = getFilters();
+        filterRound.value = filters['round'] ?? '__all';
+        filterPriority.value = filters['priority'] ?? '__all';
+        filterSolved.value = filters['solved'] ?? '__all';
+        applyFilter();
+    };
+</script>

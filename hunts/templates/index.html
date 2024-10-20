@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block head-content %}
+    <link rel="stylesheet" href="{% static "css/puzzle-table.css" %}">
+    <link rel="stylesheet" href="{% static "css/components.css" %}">
+{% endblock %}
+
 {% block content %}
     {% if request.user.is_authenticated %}
-        <table class="puzzle-table">
-            <tr class="puzzle-table-row header">
+        {% include 'components/filter-dialog.html' %}
+        <table id="puzzle-table" class="puzzle-table">
+            <tr id="puzzle-table-header" class="puzzle-table-row header">
                 <td>Round</td>
                 <td>Puzzle</td>
                 <td>Answer</td>
