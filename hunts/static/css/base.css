@@ -60,3 +60,7 @@ a.button {
 a.button:hover {
     background-color: var(--accent-color);
 }
+
+button {
+    cursor: pointer;
+}
