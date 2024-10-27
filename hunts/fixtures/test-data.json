@@ -1,0 +1,698 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+
+        "notes": [
+            "the hunt name is hunt1",
+            "the password is password"
+        ],
+
+        "fields": {
+            "username": "hunt1",
+            "password": "pbkdf2_sha256$260000$hfcZiBA9nSEPNj/+Ig+u3w==$1w/7MTSBPTEvJR8utJ8peCnwq8BE1zOk6+o8C/h1wvQ=",
+            "date_joined": "2024-10-27T22:00:00Z",
+            "is_superuser": 0,
+            "is_staff": 0,
+            "is_active": 1,
+            "first_name": "",
+            "last_name": "",
+            "email": ""
+        }
+    },
+    {
+        "model": "hunts.hunt",
+        "pk": 1,
+
+        "notes": [
+            "theoretically these ids and urls would have meaning",
+            "either in google drive or discord",
+            "but that would be handled on the m-bot side before insertion",
+            "so it's ok for them to be garbage in this test data"
+        ],
+
+        "fields": {
+            "guild_id": 1,
+            "name": "hunt1",
+            "category_id": 31337,
+            "role_id": 31337,
+            "folder": "folder link",
+            "nexus": "sheet link",
+            "is_bighunt": 1,
+            "logfeed": 31337,
+            "web_user_id": 1
+        }
+    },
+        {
+        "model": "hunts.round",
+        "pk": 1,
+        "fields": {
+            "name": "Round 1",
+            "marker": "1",
+            "category_id": 1001,
+            "hunt_id": 1
+        }
+    },
+    {
+        "model": "hunts.round",
+        "pk": 2,
+        "fields": {
+            "name": "Round 2",
+            "marker": "2",
+            "category_id": 1002,
+            "hunt_id": 1
+        }
+    },
+    {
+        "model": "hunts.round",
+        "pk": 3,
+        "fields": {
+            "name": "Round 3",
+            "marker": "3",
+            "category_id": 1003,
+            "hunt_id": 1
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 1,
+        "fields": {
+            "name": "Elephant",
+            "channel_id": 1101,
+            "voice_channel_id": 2101,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "High",
+            "is_meta": false,
+            "unlock_time": "2024-10-27T10:00:00Z",
+            "hunt_id": 1,
+            "rounds": [1]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 2,
+        "fields": {
+            "name": "Giraffe",
+            "channel_id": 1102,
+            "voice_channel_id": 2102,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Medium",
+            "is_meta": false,
+            "unlock_time": "2024-10-27T11:00:00Z",
+            "hunt_id": 1,
+            "rounds": [1]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 3,
+        "fields": {
+            "name": "Meta Lion",
+            "channel_id": 1103,
+            "voice_channel_id": 2103,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "High",
+            "is_meta": true,
+            "unlock_time": "2024-10-27T12:00:00Z",
+            "hunt_id": 1,
+            "rounds": [1]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 4,
+        "fields": {
+            "name": "Cheetah",
+            "channel_id": 1104,
+            "voice_channel_id": 2104,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Low",
+            "is_meta": false,
+            "unlock_time": "2024-10-27T13:00:00Z",
+            "hunt_id": 1,
+            "rounds": [1]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 5,
+        "fields": {
+            "name": "Zebra",
+            "channel_id": 1105,
+            "voice_channel_id": 2105,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Medium",
+            "is_meta": false,
+            "unlock_time": "2024-10-27T14:00:00Z",
+            "hunt_id": 1,
+            "rounds": [1]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 6,
+        "fields": {
+            "name": "Kangaroo",
+            "channel_id": 1201,
+            "voice_channel_id": 2201,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Medium",
+            "is_meta": false,
+            "unlock_time": "2024-10-28T10:00:00Z",
+            "hunt_id": 1,
+            "rounds": [2]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 7,
+        "fields": {
+            "name": "Penguin",
+            "channel_id": 1202,
+            "voice_channel_id": 2202,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Low",
+            "is_meta": false,
+            "unlock_time": "2024-10-28T11:00:00Z",
+            "hunt_id": 1,
+            "rounds": [2]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 8,
+        "fields": {
+            "name": "Dolphin",
+            "channel_id": 1203,
+            "voice_channel_id": 2203,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "High",
+            "is_meta": false,
+            "unlock_time": "2024-10-28T12:00:00Z",
+            "hunt_id": 1,
+            "rounds": [2]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 9,
+        "fields": {
+            "name": "Meta Whale",
+            "channel_id": 1204,
+            "voice_channel_id": 2204,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "High",
+            "is_meta": true,
+            "unlock_time": "2024-10-28T13:00:00Z",
+            "hunt_id": 1,
+            "rounds": [2]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 10,
+        "fields": {
+            "name": "Shark",
+            "channel_id": 1205,
+            "voice_channel_id": 2205,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Medium",
+            "is_meta": false,
+            "unlock_time": "2024-10-28T14:00:00Z",
+            "hunt_id": 1,
+            "rounds": [2]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 11,
+        "fields": {
+            "name": "Bear",
+            "channel_id": 1301,
+            "voice_channel_id": 2301,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Low",
+            "is_meta": false,
+            "unlock_time": "2024-10-29T10:00:00Z",
+            "hunt_id": 1,
+            "rounds": [3]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 12,
+        "fields": {
+            "name": "Wolf",
+            "channel_id": 1302,
+            "voice_channel_id": 2302,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Medium",
+            "is_meta": false,
+            "unlock_time": "2024-10-29T11:00:00Z",
+            "hunt_id": 1,
+            "rounds": [3]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 13,
+        "fields": {
+            "name": "Meta Eagle",
+            "channel_id": 1303,
+            "voice_channel_id": 2303,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "High",
+            "is_meta": true,
+            "unlock_time": "2024-10-29T12:00:00Z",
+            "hunt_id": 1,
+            "rounds": [3]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 14,
+        "fields": {
+            "name": "Fox",
+            "channel_id": 1304,
+            "voice_channel_id": 2304,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Medium",
+            "is_meta": false,
+            "unlock_time": "2024-10-29T13:00:00Z",
+            "hunt_id": 1,
+            "rounds": [3]
+        }
+    },
+    {
+        "model": "hunts.puzzle",
+        "pk": 15,
+        "fields": {
+            "name": "Deer",
+            "channel_id": 1305,
+            "voice_channel_id": 2305,
+            "spreadsheet_link": "//spreadsheet link",
+            "priority": "Low",
+            "is_meta": false,
+            "unlock_time": "2024-10-29T14:00:00Z",
+            "hunt_id": 1,
+            "rounds": [3]
+        }
+    },
+
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 4,
+            "codename": "add_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 4,
+            "codename": "change_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 4,
+            "codename": "delete_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 4,
+            "codename": "view_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 5,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 5,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 5,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 5,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 6,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 6,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 6,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 6,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add hunt",
+            "content_type": 7,
+            "codename": "add_hunt"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change hunt",
+            "content_type": 7,
+            "codename": "change_hunt"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete hunt",
+            "content_type": 7,
+            "codename": "delete_hunt"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view hunt",
+            "content_type": 7,
+            "codename": "view_hunt"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add round",
+            "content_type": 8,
+            "codename": "add_round"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change round",
+            "content_type": 8,
+            "codename": "change_round"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete round",
+            "content_type": 8,
+            "codename": "delete_round"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view round",
+            "content_type": 8,
+            "codename": "view_round"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add puzzle",
+            "content_type": 9,
+            "codename": "add_puzzle"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change puzzle",
+            "content_type": 9,
+            "codename": "change_puzzle"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete puzzle",
+            "content_type": 9,
+            "codename": "delete_puzzle"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view puzzle",
+            "content_type": 9,
+            "codename": "view_puzzle"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "auth",
+            "model": "user"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "hunts",
+            "model": "hunt"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "hunts",
+            "model": "round"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 9,
+        "fields": {
+            "app_label": "hunts",
+            "model": "puzzle"
+        }
+    }
+]
