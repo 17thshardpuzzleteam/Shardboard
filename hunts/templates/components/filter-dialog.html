@@ -14,6 +14,7 @@
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
             <option value="High">High</option>
+            <option value="Stuck">Stuck</option>
         </select>
         <label for="filter-solved">Solved:</label>
         <select id="filter-solved">
@@ -57,20 +58,22 @@
 
     function applyFilter() {
         for (const child of document.getElementById('puzzle-table').children[0].children) {
-            if (child.id !== 'puzzle-table-header') {
+            if (child.tagName === 'TR' && child.id !== 'puzzle-table-header') {
                 const cells = child.children;
                 let show = true;
-                show &= matchesFilter('round', cells[0].textContent.trim());
-                show &= matchesFilter('priority', cells[3].textContent.trim());
-                show &= matchesSolvedFilter(cells[3].textContent.trim());
+                show &= matchesFilter('round', cells[1].textContent.trim());
+                show &= matchesFilter('priority', cells[4].textContent.trim());
+                show &= matchesSolvedFilter(cells[4].textContent.trim());
 
                 if (show) {
-                    child.style.display = null;
+                    child.classList.remove('filtered');
                 } else {
-                    child.style.display = 'none';
+                    child.classList.add('filtered');
                 }
             }
         }
+        updateSummary();
+        updateMetaSubsets();
     }
 
     function matchesFilter(filterType, item) {
