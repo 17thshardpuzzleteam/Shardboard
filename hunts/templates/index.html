@@ -11,38 +11,114 @@
         {% include 'components/filter-dialog.html' %}
         <table id="puzzle-table" class="puzzle-table">
             <tr id="puzzle-table-header" class="puzzle-table-row header">
+                <td></td>
                 <td>Round</td>
                 <td>Puzzle</td>
                 <td>Answer</td>
                 <td>Priority</td>
                 <td>Links</td>
             </tr>
-            {% for puzzle in puzzles %}
-              <tr class="puzzle-table-row">
-                <td>
-                    {% for round in puzzle.rounds.all %}
-                        {{ round.marker }}
-                    {% endfor %}
-                </td>
-                <td>{{ puzzle.name }}</td>
-                <td><div class="answer">{% if puzzle.answer is not None %}{{ puzzle.answer.upper }}{% endif %}</div></td>
-                <td>{{ puzzle.priority }}</td>
-                <td>
-                    <div class="links">
-                        <a href="{{ puzzle.spreadsheet_link }}" target="_blank">
-                            <img class="icon" src="{% static 'images/sheets_icon.png' %}" alt="Spreadsheet" title="Spreadsheet">
-                        </a>
-                        <a href="https://discord.com/channels/{{ puzzle.hunt.guild_id }}/{{ puzzle.channel_id }}" target="_blank">
-                            <img class="icon" src="{% static 'images/text_channel_icon.png' %}" alt="Text channel" title="Text channel">
-                        </a>
-                        <a href="https://discord.com/channels/{{ puzzle.hunt.guild_id }}/{{ puzzle.voice_channel_id }}" target="_blank">
-                            <img class="icon" src="{% static 'images/voice_channel_icon.png' %}" alt="Voice channel" title="Voice channel">
-                        </a>
-                    </div>
-                </td>
-              </tr>
+            {% for puzzle_set in puzzle_sets %}
+                {% if puzzle_set.meta is not None %}
+                    {% include 'components/puzzle-table-row.html' with puzzle=puzzle_set.meta %}
+                    <script>
+                        const collapser = document.getElementById('meta-{{ puzzle_set.meta.id }}-collapser');
+                        function toggleCollapse(forceOpen) {
+                            const puzzles = document.getElementsByClassName('from-meta-{{ puzzle_set.meta.id }}');
+                            if (collapser.classList.contains('collapsed') || forceOpen === true) {
+                                collapser.classList.remove('collapsed');
+                                for (const puzzle of puzzles) {
+                                    puzzle.classList.remove('collapsed');
+                                }
+                            } else {
+                                collapser.classList.add('collapsed');
+                                for (const puzzle of puzzles) {
+                                    puzzle.classList.add('collapsed');
+                                }
+                            }
+                            updateSummary();
+                            updateMetaSubsets();
+                        }
+                        collapser.addEventListener('click', toggleCollapse);
+                    </script>
+                {% endif %}
+                {% for puzzle in puzzle_set.puzzles %}
+                    {% include 'components/puzzle-table-row.html' with puzzle=puzzle from_meta=puzzle_set.meta %}
+                {% endfor %}
             {% endfor %}
         </table>
+        <div id="puzzle-table-summary" class="puzzle-table-summary"></div>
+        <script>
+            const summary = document.getElementById('puzzle-table-summary');
+            function updateSummary() {
+                const hidden = document.querySelectorAll('.puzzle-table-row.collapsed:not(.filtered)').length;
+                const showing = document.querySelectorAll('.puzzle-table-row:not(.header):not(.filtered):not(.collapsed)').length;
+                summary.innerText = 'Showing ' + showing + ' puzzle' + (showing === 1 ? '' : 's ' ) + ' (' + hidden + ' hidden)';
+            }
+            updateSummary();
+            const table = document.getElementById('puzzle-table').children[0];
+            function updateMetaSubsets() {
+                const children = table.children;
+                for (let r = 0; r < children.length; r++) {
+                    const row = children[r];
+                    let fromMetaClass = undefined;
+                    for (const className of row.classList) {
+                        if (className.startsWith('from-meta-')) {
+                            fromMetaClass = className;
+                        }
+                    }
+                    if (fromMetaClass) {
+                        if (row.tagName === 'TR') {
+                            const cell = row.children[0];
+                            let nextVisibleRow = undefined;
+                            for (let nr = r + 1; nr < children.length; nr++) {
+                                const classList = children[nr].classList;
+                                if (!classList.contains(fromMetaClass)) {
+                                    break;
+                                } else if (!classList.contains('filtered')) {
+                                    nextVisibleRow = children[nr];
+                                    break;
+                                }
+                            }
+                            if (!nextVisibleRow || !nextVisibleRow.classList.contains(fromMetaClass)) {
+                                cell.innerHTML =
+                                    '<div style="display: inline-block; height: 50%; width: 46%;"></div>'
+                                    + '<div style="display: inline-block; height: 50%; width: 46%; border-left: 1px solid var(--accent-color); border-bottom: 1px solid var(--accent-color);"></div>'
+                            } else {
+                                cell.innerHTML =
+                                    '<div style="height: 100%; width: 48%; border-right: 1px solid var(--accent-color);"></div>'
+                            }
+                        }
+                    } else if (row.classList.contains('meta')) {
+                        let metaClass = undefined;
+                        for (const className of row.classList) {
+                            if (className.startsWith('meta-')) {
+                                metaClass = className;
+                            }
+                        }
+                        const fromMetaClass = 'from-' + metaClass;
+                        let hasVisibleChildren = false;
+                        for (let nr = r + 1; nr < children.length; nr++) {
+                            const classList = children[nr].classList;
+                            if (children[nr].tagName === 'TR') {
+                                if (!classList.contains(fromMetaClass)) {
+                                    break;
+                                } else if (!classList.contains('filtered')) {
+                                    hasVisibleChildren = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!hasVisibleChildren && row.classList.contains('filtered')) {
+                            row.style.display = 'none';
+                        } else {
+                            row.style.display = null;
+                        }
+                    }
+                }
+            }
+            updateMetaSubsets();
+        </script>
     {% else %}
     <h1>Welcome to Shardboard!</h1>
     <div>

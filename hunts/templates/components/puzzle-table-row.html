@@ -1,0 +1,36 @@
+{% load static %}
+<tr class="puzzle-table-row{% if puzzle.is_meta %} meta meta-{{ puzzle.id }}{% endif %}{% if from_meta is not None %} from-meta-{{ from_meta.id }}{% endif %}">
+    <td style="padding: 0 5px">
+        {% if puzzle.is_meta %}
+            <div id="meta-{{ puzzle.id }}-collapser" class="meta-collapser">
+                &#9654;
+            </div>
+        {% endif %}
+    </td>
+    <td>
+        {% for round in puzzle.rounds.all %}
+            {{ round.marker }}
+        {% endfor %}
+    </td>
+    <td>
+        <div class="puzzle-name">{{ puzzle.name }}</div>
+        {% if puzzle.is_meta %}
+            <div class="puzzle-filler">(This metapuzzle does not match the current filters.)</div>
+        {% endif %}
+    </td>
+    <td><div class="answer">{% if puzzle.answer is not None %}{{ puzzle.answer.upper }}{% endif %}</div></td>
+    <td>{{ puzzle.priority }}</td>
+    <td>
+        <div class="links">
+            <a href="{{ puzzle.spreadsheet_link }}" target="_blank">
+                <img class="icon" src="{% static 'images/sheets_icon.png' %}" alt="Spreadsheet" title="Spreadsheet">
+            </a>
+            <a href="https://discord.com/channels/{{ puzzle.hunt.guild_id }}/{{ puzzle.channel_id }}" target="_blank">
+                <img class="icon" src="{% static 'images/text_channel_icon.png' %}" alt="Text channel" title="Text channel">
+            </a>
+            <a href="https://discord.com/channels/{{ puzzle.hunt.guild_id }}/{{ puzzle.voice_channel_id }}" target="_blank">
+                <img class="icon" src="{% static 'images/voice_channel_icon.png' %}" alt="Voice channel" title="Voice channel">
+            </a>
+        </div>
+    </td>
+</tr>

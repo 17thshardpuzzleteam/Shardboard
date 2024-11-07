@@ -58,7 +58,7 @@ class Puzzle(models.Model):
     is_meta = models.BooleanField(verbose_name='Is Meta?', default=False)
     hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
     rounds = models.ManyToManyField(Round)
-    metas = models.ManyToManyField('self', symmetrical=False)
+    feeders = models.ManyToManyField('self', related_name='feeding', symmetrical=False)
 
     class Meta:
         constraints = [
