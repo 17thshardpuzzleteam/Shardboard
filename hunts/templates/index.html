@@ -17,6 +17,7 @@
                 <td>Answer</td>
                 <td>Priority</td>
                 <td>Links</td>
+                <td>Info</td>
             </tr>
             {% for puzzle_set in puzzle_sets %}
                 {% if puzzle_set.meta is not None %}
@@ -56,6 +57,7 @@
                 summary.innerText = 'Showing ' + showing + ' puzzle' + (showing === 1 ? '' : 's ' ) + ' (' + hidden + ' hidden)';
             }
             updateSummary();
+
             const table = document.getElementById('puzzle-table').children[0];
             function updateMetaSubsets() {
                 const children = table.children;
@@ -118,6 +120,16 @@
                 }
             }
             updateMetaSubsets();
+
+            function closeAllInfos() {
+                for (const info of document.getElementsByClassName('more-info-popup')) {
+                    info.classList.remove('active')
+                }
+            }
+            document.addEventListener('click', () => {
+                closeAllInfos();
+            })
+            closeAllInfos();
         </script>
     {% else %}
     <h1>Welcome to Shardboard!</h1>
