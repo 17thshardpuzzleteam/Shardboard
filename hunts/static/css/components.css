@@ -12,3 +12,20 @@
 .filter-dialog > div {
     padding: 5px;
 }
+
+.filter-dialog select {
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.filter-dialog select:hover {
+    background-color: var(--accent-color);
+}
+
+.filter-dialog label:hover + select {
+    background-color: white;
+}
+
+.filter-dialog select:hover option {
+    background-color: white;
+}

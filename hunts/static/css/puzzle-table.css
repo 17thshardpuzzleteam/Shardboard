@@ -23,7 +23,13 @@
 }
 
 .puzzle-table-row .icon {
+    cursor: pointer;
     height: 2em;
+    transition: filter 0.1s ease-in-out;
+}
+
+.puzzle-table-row .icon:hover {
+    filter: brightness(1.4);
 }
 
 .puzzle-table-row td {
@@ -56,6 +62,11 @@
     text-align: center;
     transform: rotate(90deg);
     user-select: none;
+    transition: opacity 0.1s ease-in-out;
+}
+
+.puzzle-table-row .meta-collapser:hover {
+    opacity: 0.5;
 }
 
 .puzzle-table-row .meta-collapser.collapsed {
@@ -86,10 +97,6 @@
 
 .puzzle-table-row .more-info {
     position: relative;
-}
-
-.puzzle-table-row .more-info img {
-    cursor: pointer;
 }
 
 .puzzle-table-row .more-info-popup {
