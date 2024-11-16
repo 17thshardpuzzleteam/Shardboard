@@ -84,6 +84,34 @@
     display: none;
 }
 
+.puzzle-table-row .more-info {
+    position: relative;
+}
+
+.puzzle-table-row .more-info img {
+    cursor: pointer;
+}
+
+.puzzle-table-row .more-info-popup {
+    position: absolute;
+    right: 0;
+    width: fit-content;
+    white-space: nowrap;
+    background-color: var(--off-white);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 6px;
+    font-weight: normal;
+    font-style: normal;
+    box-shadow: 3px 5px 5px var(--accent-color);
+    display: none;
+    z-index: 9999;
+}
+
+.puzzle-table-row .more-info-popup.active {
+    display: inherit;
+}
+
 .puzzle-table-summary {
     font-style: italic;
     margin-top: 0.5em;
