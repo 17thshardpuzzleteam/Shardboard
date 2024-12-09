@@ -38,3 +38,6 @@ dump.rdb
 
 # Server stuff
 *.pem
+
+# Environment
+.env

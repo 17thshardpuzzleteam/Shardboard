@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
 
+    path('add-puzzle', views.add_puzzle),
+
     path('login',
          auth_views.LoginView.as_view(template_name='login.html'),
          name='login'),
