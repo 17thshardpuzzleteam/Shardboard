@@ -1,0 +1,19 @@
+{% load static %}
+
+<div id="actions-dialog" class="dialog actions-dialog">
+    <div style="text-align: center">
+        <b>Actions</b>
+    </div>
+    <div>
+        <button id="add-puzzle-button">Add Puzzle</button>
+    </div>
+    {% include 'components/add-puzzle-popup.html' with add_puzzle_form=add_puzzle_form %}
+</div>
+<script type="text/javascript">
+    const addPuzzleButton = document.getElementById('add-puzzle-button');
+    const addPuzzlePopup = document.getElementById('add-puzzle-popup');
+
+    addPuzzleButton.addEventListener('click', () => {
+        addPuzzlePopup.classList.add('visible');
+    })
+</script>

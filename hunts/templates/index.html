@@ -8,6 +8,7 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
+        {% include 'components/actions-dialog.html' with add_puzzle_form=add_puzzle_form %}
         {% include 'components/filter-dialog.html' %}
         <table id="puzzle-table" class="puzzle-table">
             <tr id="puzzle-table-header" class="puzzle-table-row header">

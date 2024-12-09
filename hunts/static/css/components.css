@@ -1,6 +1,6 @@
 /* Filter Dialog */
 
-.filter-dialog {
+.dialog {
     background-color: var(--off-white);
     border: 1px solid black;
     border-radius: 2px;
@@ -9,7 +9,11 @@
     overflow: hidden;
 }
 
-.filter-dialog > div {
+.actions-dialog {
+    border-bottom: none;
+}
+
+.dialog > div {
     padding: 5px;
 }
 
@@ -28,4 +32,26 @@
 
 .filter-dialog select:hover option {
     background-color: white;
+}
+
+.popup {
+    position: absolute;
+    background-color: var(--off-white);
+    border: 1px solid black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.popup.visible {
+    display: block;
+}
+
+.add-puzzle-popup .add-puzzle-feeders {
+    display: none;
+}
+
+.add-puzzle-popup .add-puzzle-feeders.visible {
+    display: table-row;
 }

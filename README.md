@@ -9,5 +9,9 @@ The main purpose of Shardboard is to provide a condensed view of the current hun
 1. Make sure you have python and pip installed (Python 3.10+ or so). If you want, create a `virtualenv` for project dependencies.
 2. Install dependencies with `pip install -r requirements.txt`.
 3. Create a database with `python manage.py migrate`. (At this point, you can also configure M-Bot to point at that database).
-4. Start the server with `python manage.py runserver`.
-5. To view a hunt, create one with M-Bot using the `!createhunt -bighunt` command and add a round+puzzle. You should then be able to log into Shardboard using the credentials you provide M-Bot when creating the hunt.
+4. Create a `.env` file at the repository root with:
+```
+DISCORD_WEBHOOK_URL= ...   # a webhook url for the hunt-discussion channel
+```
+5. Start the server with `python manage.py runserver`.
+6. To view a hunt, create one with M-Bot using the `!createhunt -bighunt` command and add a round+puzzle. You should then be able to log into Shardboard using the credentials you provide M-Bot when creating the hunt.

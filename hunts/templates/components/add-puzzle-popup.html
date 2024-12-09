@@ -1,0 +1,35 @@
+<div id="add-puzzle-popup" class="popup add-puzzle-popup">
+<form id="login" action="/add-puzzle" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <table>
+        {% for field in add_puzzle_form %}
+            <tr id="add-puzzle-{{ field.label.lower }}" class="add-puzzle-{{ field.label.lower }}">
+                <td>
+                    {{ field.label_tag }}
+                </td>
+                <td>
+                    {{ field }}
+                    {{ field.errors }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div>
+        <button type="submit">Submit</button>
+        <button type="reset" onclick="document.getElementById('add-puzzle-popup').classList.remove('visible')">Cancel</button>
+    </div>
+</form>
+<script type="text/javascript">
+    const feedersList = document.getElementById('add-puzzle-feeders');
+    const isMeta = document.getElementById('add-puzzle-is meta?');
+    isMeta.addEventListener('click', () => {
+        if (isMeta.children[1].children[0].checked) {
+            feedersList.classList.add('visible');
+        } else {
+            feedersList.classList.remove('visible');
+        }
+    })
+</script>
+</div>

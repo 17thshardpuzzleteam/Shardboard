@@ -44,6 +44,9 @@ class Round(models.Model):
             )
         ]
 
+    def __str__(self):
+        return self.marker + ' ' + self.name
+
 
 class Puzzle(models.Model):
     name = models.CharField(max_length=511, verbose_name='Name')
@@ -69,3 +72,6 @@ class Puzzle(models.Model):
                 fields=['hunt', 'channel_id'], name='unique_hunt_channel_combination'
             )
         ]
+
+    def __str__(self):
+        return self.name
