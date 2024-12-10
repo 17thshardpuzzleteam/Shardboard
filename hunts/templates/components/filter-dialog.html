@@ -3,6 +3,7 @@
         <b>Filters</b>
     </div>
     <div>
+        <input id="filter-name" placeholder="Search">
         <label for="filter-round">Round:</label>
         <select id="filter-round">
             <option value="__all">All</option>
@@ -30,6 +31,12 @@
 <script type="text/javascript">
     const button = document.getElementById('filter-button');
     const dialog = document.getElementById('filter-dialog');
+
+    const filterName = document.getElementById('filter-name');
+    filterName.addEventListener('input', () => {
+        setFilter('name', filterName.value.toLowerCase());
+        applyFilter();
+    });
 
     const filterRound = document.getElementById('filter-round');
     filterRound.addEventListener('change', () => {
@@ -64,7 +71,8 @@
             if (child.tagName === 'TR' && child.id !== 'puzzle-table-header') {
                 const cells = child.children;
                 let show = true;
-                show &= matchesFilter('round', cells[1].textContent.trim());
+                show &= matchesFilter('name', cells[2].innerText.trim().toLowerCase(), false);
+                show &= matchesFilter('round', cells[1].textContent.trim(), false);
                 show &= matchesFilter('priority', cells[4].textContent.trim());
                 show &= matchesSolvedFilter(cells[4].textContent.trim());
 
@@ -79,9 +87,10 @@
         updateMetaSubsets();
     }
 
-    function matchesFilter(filterType, item) {
+    function matchesFilter(filterType, item, exact = true) {
         const filters = getFilters();
-        return !filters[filterType] || filters[filterType] === '__all' || filters[filterType] === item;
+        if (!filters[filterType] || filters[filterType] === '__all') return true;
+        return exact ? filters[filterType] === item : item.includes(filters[filterType]);
     }
 
     function matchesSolvedFilter(item) {
