@@ -28,6 +28,13 @@ def index(request):
 
 
 @require_POST
+def add_round(request):
+    data = request.POST.dict()
+    discord_interface.send_message('!round ' + data['name'] + ' -marker=' + data['marker'])
+    return HttpResponseRedirect('/')
+
+
+@require_POST
 def add_puzzle(request):
     data = request.POST.dict()
     discord_interface.send_message('!create ' + data['name'] + ' -round=' + Round.objects.filter(id=data['rounds']).first().name)

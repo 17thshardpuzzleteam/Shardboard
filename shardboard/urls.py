@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
 
+    path('add-round', views.add_round),
     path('add-puzzle', views.add_puzzle),
 
     path('login',
