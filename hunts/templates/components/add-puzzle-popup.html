@@ -1,5 +1,5 @@
 <div id="add-puzzle-popup" class="popup add-puzzle-popup">
-<form id="login" action="/add-puzzle" method="post">
+<form action="/add-puzzle" method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
 

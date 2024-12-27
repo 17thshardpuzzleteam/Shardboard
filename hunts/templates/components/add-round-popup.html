@@ -1,0 +1,24 @@
+<div id="add-round-popup" class="popup">
+    <form action="/add-round" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+    
+        <table>
+            {% for field in add_round_form %}
+                <tr id="add-round-{{ field.label.lower }}" class="add-round-{{ field.label.lower }}">
+                    <td>
+                        {{ field.label_tag }}
+                    </td>
+                    <td>
+                        {{ field }}
+                        {{ field.errors }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div>
+            <button type="submit">Submit</button>
+            <button type="reset" onclick="document.getElementById('add-round-popup').classList.remove('visible')">Cancel</button>
+        </div>
+    </form>
+</div>
