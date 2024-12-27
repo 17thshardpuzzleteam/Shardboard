@@ -7,13 +7,23 @@
     <div>
         <button id="add-puzzle-button">Add Puzzle</button>
     </div>
-    {% include 'components/add-puzzle-popup.html' with add_puzzle_form=add_puzzle_form %}
+    {% include 'components/add-round-popup.html' %}
+    {% include 'components/add-puzzle-popup.html' %}
 </div>
 <script type="text/javascript">
+    const addRoundButton = document.getElementById('add-round-button');
+    const addRoundPopup = document.getElementById('add-round-popup');
+
+    addRoundButton.addEventListener('click', () => {
+        addPuzzlePopup.classList.remove('visible');
+        addRoundPopup.classList.add('visible');
+    })
+
     const addPuzzleButton = document.getElementById('add-puzzle-button');
     const addPuzzlePopup = document.getElementById('add-puzzle-popup');
 
     addPuzzleButton.addEventListener('click', () => {
+        addRoundPopup.classList.remove('visible');
         addPuzzlePopup.classList.add('visible');
     })
 </script>

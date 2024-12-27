@@ -4,6 +4,14 @@ from django.db.models.query import EmptyQuerySet
 from hunts.models import Round, Puzzle
 
 
+class AddRoundForm(forms.Form):
+    name = forms.CharField(label="Name", max_length=255, required=True)
+    marker = forms.CharField(label="Marker", max_length=7, required=True)
+
+    def __init__(self, user_id):
+        super().__init__()
+
+
 class AddPuzzleForm(forms.Form):
     name = forms.CharField(label="Name", max_length=511, required=True)
     is_meta = forms.BooleanField(label='Is Meta?', required=False)
