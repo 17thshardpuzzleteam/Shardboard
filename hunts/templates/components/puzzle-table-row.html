@@ -18,7 +18,24 @@
             <div class="puzzle-filler">(This metapuzzle does not match the current filters.)</div>
         {% endif %}
     </td>
-    <td><div class="answer">{% if puzzle.answer is not None %}{{ puzzle.answer.upper }}{% endif %}</div></td>
+    <td>
+        <div class="answer">
+            {% if puzzle.answer is not None %}
+                {{ puzzle.answer.upper }}
+            {% else %}
+                <button id="solve-button-{{ puzzle.id }}">Solve</button>
+                <script type="text/javascript">
+                    const solveButton{{ puzzle.id }} = document.getElementById('solve-button-{{ puzzle.id }}');
+                    solveButton{{ puzzle.id }}.addEventListener('click', () => {
+                        clearAllPopups();
+                        document.getElementById('solve-puzzle-popup').classList.add('visible');
+                        document.getElementById('solve-puzzle-popup-title').innerText = '{{ puzzle.name }}';
+                        document.getElementById('solve-puzzle-id-field').value = '{{ puzzle.id }}';
+                    })
+                </script>
+            {% endif %}
+        </div>
+    </td>
     <td>{{ puzzle.priority }}</td>
     <td>
         <div class="links">

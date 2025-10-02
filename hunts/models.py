@@ -30,6 +30,7 @@ class Round(models.Model):
     marker = models.CharField(max_length=7, verbose_name='Marker')
     category_id = models.IntegerField(verbose_name='Round Category ID')
     hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
+    update_flag = models.BooleanField(default=False, verbose_name='Update Flag')
 
     class Meta:
         constraints = [
@@ -62,6 +63,7 @@ class Puzzle(models.Model):
     hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
     rounds = models.ManyToManyField(Round)
     feeders = models.ManyToManyField('self', related_name='feeding', symmetrical=False)
+    update_flag = models.BooleanField(default=False, verbose_name='Update Flag')
 
     class Meta:
         constraints = [

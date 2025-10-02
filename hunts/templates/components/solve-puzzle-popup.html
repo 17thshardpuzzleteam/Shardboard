@@ -1,0 +1,27 @@
+<div id="solve-puzzle-popup" class="popup solve-puzzle-popup">
+<form action="/solve-puzzle" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div><b>Enter answer for puzzle: <span id="solve-puzzle-popup-title"></span></b></div>
+    <hr>
+    <table>
+        {% for field in solve_puzzle_form %}
+            <tr id="solve-puzzle-{{ field.label.lower }}" class="solve-puzzle-{{ field.label.lower }}">
+                <td>
+                    {{ field.label_tag }}
+                </td>
+                <td>
+                    {{ field }}
+                    {{ field.errors }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" id="solve-puzzle-id-field" name="id" />
+    <div>
+        <button type="submit">Submit</button>
+        <button type="reset" onclick="document.getElementById('solve-puzzle-popup').classList.remove('visible')">Cancel</button>
+    </div>
+</form>
+</div>
