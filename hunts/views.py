@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 
-from hunts.forms import AddRoundForm, AddPuzzleForm
+from hunts.forms import AddRoundForm, AddPuzzleForm, SolvePuzzleForm
 from hunts.models import Puzzle, Round, Hunt
 from datetime import datetime
 
@@ -24,7 +24,8 @@ def index(request):
         'puzzle_sets': puzzle_sets,
         'rounds': Round.objects.filter(hunt__web_user_id=request.user.id),
         'add_round_form': AddRoundForm(request.user.id),
-        'add_puzzle_form': AddPuzzleForm(request.user.id)
+        'add_puzzle_form': AddPuzzleForm(request.user.id),
+        'solve_puzzle_form': SolvePuzzleForm(request.user.id)
     })
 
 
@@ -42,7 +43,17 @@ def add_puzzle(request):
     data = request.POST.dict()
     hunt = Hunt.objects.get(web_user_id=request.user.id)
     pending_puzzles = Puzzle.objects.filter(channel_id__lt=0, hunt_id=hunt.id)
+    # channel id doesn't actually matter here, we just want it to be unique per-hunt
     new_puzzle = Puzzle.objects.create(name=data['name'], channel_id=-(len(pending_puzzles) + 1), hunt_id=hunt.id,
-                                       spreadsheet_link='', unlock_time=datetime.now(), priority='New')
+                                       spreadsheet_link='', unlock_time=datetime.now(), priority='New', update_flag=True)
     new_puzzle.rounds.add(Round.objects.filter(id=data['rounds']).first())
+    return HttpResponseRedirect('/')
+
+
+@require_POST
+def solve_puzzle(request):
+    data = request.POST.dict()
+    Puzzle.objects.filter(id=data['id']).update(answer=data['answer'].upper(), priority='Solved',
+                                             solve_time=datetime.now(), update_flag=True)
+
     return HttpResponseRedirect('/')

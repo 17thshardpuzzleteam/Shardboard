@@ -22,3 +22,10 @@ class AddPuzzleForm(forms.Form):
         super().__init__()
         self.fields['rounds'] = forms.ModelChoiceField(label='Round', queryset=Round.objects.filter(hunt__web_user_id=user_id).order_by('-id'), required=True)
         self.fields['feeders'] = forms.ModelMultipleChoiceField(label='Feeders', queryset=Puzzle.objects.filter(hunt__web_user_id=user_id).order_by('name'), required=False)
+
+
+class SolvePuzzleForm(forms.Form):
+    answer = forms.CharField(label="Answer", max_length=255, required=True)
+
+    def __init__(self, user_id):
+        super().__init__()

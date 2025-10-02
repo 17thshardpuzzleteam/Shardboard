@@ -10,21 +10,29 @@
     </div>
     {% include 'components/add-round-popup.html' %}
     {% include 'components/add-puzzle-popup.html' %}
+    {% include 'components/solve-puzzle-popup.html' %}
 </div>
 <script type="text/javascript">
     const addRoundButton = document.getElementById('add-round-button');
+    const addPuzzleButton = document.getElementById('add-puzzle-button');
+
+    const addPuzzlePopup = document.getElementById('add-puzzle-popup');
     const addRoundPopup = document.getElementById('add-round-popup');
+    const solvePuzzlePopup = document.getElementById('solve-puzzle-popup');
 
     addRoundButton.addEventListener('click', () => {
-        addPuzzlePopup.classList.remove('visible');
+        clearAllPopups();
         addRoundPopup.classList.add('visible');
-    })
-
-    const addPuzzleButton = document.getElementById('add-puzzle-button');
-    const addPuzzlePopup = document.getElementById('add-puzzle-popup');
+    });
 
     addPuzzleButton.addEventListener('click', () => {
-        addRoundPopup.classList.remove('visible');
+        clearAllPopups();
         addPuzzlePopup.classList.add('visible');
-    })
+    });
+
+    function clearAllPopups() {
+        addPuzzlePopup.classList.remove('visible');
+        addRoundPopup.classList.remove('visible');
+        solvePuzzlePopup.classList.remove('visible');
+    }
 </script>
