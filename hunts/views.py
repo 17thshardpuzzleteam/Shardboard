@@ -1,9 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 
 from hunts.forms import AddRoundForm, AddPuzzleForm, SolvePuzzleForm
-from hunts.models import Puzzle, Round, Hunt
+from hunts.models import Puzzle, Round, Hunt, Tag, PuzzleTag
 from datetime import datetime
 
 
@@ -25,7 +25,8 @@ def index(request):
         'rounds': Round.objects.filter(hunt__web_user_id=request.user.id),
         'add_round_form': AddRoundForm(request.user.id),
         'add_puzzle_form': AddPuzzleForm(request.user.id),
-        'solve_puzzle_form': SolvePuzzleForm(request.user.id)
+        'solve_puzzle_form': SolvePuzzleForm(request.user.id),
+        'all_tags': Tag.objects.all().order_by('name'),
     })
 
 
@@ -55,5 +56,24 @@ def solve_puzzle(request):
     data = request.POST.dict()
     Puzzle.objects.filter(id=data['id']).update(answer=data['answer'].upper(), priority='Solved',
                                              solve_time=datetime.now(), update_flag=True)
+
+    return HttpResponseRedirect('/')
+
+
+@require_POST
+def add_tag(request):
+    data = request.POST.dict()
+    puzzle_id = data.get("puzzle_id")
+    tag_id = data.get("tag_id")
+
+    if not puzzle_id or not tag_id:
+        return HttpResponseRedirect('/')
+
+    puzzle = get_object_or_404(Puzzle, id=puzzle_id)
+    tag = get_object_or_404(Tag, id=tag_id)
+
+    PuzzleTag.objects.get_or_create(puzzle=puzzle, tag=tag)
+
+    Puzzle.objects.filter(id=puzzle.id).update(update_flag=True)
 
     return HttpResponseRedirect('/')

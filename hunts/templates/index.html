@@ -22,7 +22,7 @@
             </tr>
             {% for puzzle_set in puzzle_sets %}
                 {% if puzzle_set.meta is not None %}
-                    {% include 'components/puzzle-table-row.html' with puzzle=puzzle_set.meta %}
+                    {% include 'components/puzzle-table-row.html' with puzzle=puzzle_set.meta all_tags=all_tags %}
                     <script>
                         const collapser = document.getElementById('meta-{{ puzzle_set.meta.id }}-collapser');
                         function toggleCollapse(forceOpen) {
@@ -45,7 +45,7 @@
                     </script>
                 {% endif %}
                 {% for puzzle in puzzle_set.puzzles %}
-                    {% include 'components/puzzle-table-row.html' with puzzle=puzzle from_meta=puzzle_set.meta %}
+                    {% include 'components/puzzle-table-row.html' with puzzle=puzzle from_meta=puzzle_set.meta all_tags=all_tags%}
                 {% endfor %}
             {% endfor %}
         </table>

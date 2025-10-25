@@ -1,0 +1,48 @@
+<div id="puzzle-{{ puzzle.id }}-info-popup" class="more-info-popup">
+    <div class="popup-section">
+        <b>Tags:</b>
+
+        {% if puzzle.tags.all %}
+            <ul style="margin: 0.25rem 0 0 1rem; padding: 0;">
+                {% for tag in puzzle.tags.all %}
+                    <li>{{ tag.marker }} {{ tag.name }}</li>
+                {% empty %}
+                    <li style="font-style: italic; color: #888;">No tags.</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div style="font-style: italic; color: #888;">No tags.</div>
+        {% endif %}
+
+        {# Add Tag form #}
+        <form method="post"
+              action="{% url 'add_tag' %}"
+              style="margin-top: 0.5rem; font-size: 0.9rem;">
+            {% csrf_token %}
+            <input type="hidden" name="puzzle_id" value="{{ puzzle.id }}"/>
+
+            <label for="tag-select-{{ puzzle.id }}"><strong>Add tag:</strong></label><br>
+
+            <select id="tag-select-{{ puzzle.id }}"
+                    name="tag_id"
+                    style="max-width: 100%;">
+                {% for available_tag in all_tags %}
+                    <option value="{{ available_tag.id }}">
+                        {{ available_tag.marker }} {{ available_tag.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" style="margin-left: 0.5rem;">Add</button>
+        </form>
+    </div>
+
+    {% if puzzle.notes %}
+        <div class="popup-section" style="margin-top: 0.75rem;">
+            <b>Notes:</b>
+            <ul style="margin: 0.25rem 0 0 1rem; padding: 0;">
+                <li>{{ puzzle.notes }}</li>
+            </ul>
+        </div>
+    {% endif %}
+</div>

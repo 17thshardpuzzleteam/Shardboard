@@ -26,6 +26,7 @@ urlpatterns = [
     path('add-round', views.add_round),
     path('add-puzzle', views.add_puzzle),
     path('solve-puzzle', views.solve_puzzle),
+    path("puzzles/add_tag/", views.add_tag, name="add_tag"),
 
     path('login',
          auth_views.LoginView.as_view(template_name='login.html'),
