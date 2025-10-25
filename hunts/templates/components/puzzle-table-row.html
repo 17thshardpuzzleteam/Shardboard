@@ -1,5 +1,9 @@
 {% load static %}
-<tr class="puzzle-table-row{% if puzzle.is_meta %} meta meta-{{ puzzle.id }}{% endif %}{% if from_meta is not None %} from-meta-{{ from_meta.id }}{% endif %}">
+<tr
+        class="puzzle-table-row{% if puzzle.is_meta %} meta meta-{{ puzzle.id }}{% endif %}{% if from_meta is not None %} from-meta-{{ from_meta.id }}{% endif %}"
+        data-tag-ids="{% for t in puzzle.tags.all %}{{ t.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
+        data-tag-names="{% for t in puzzle.tags.all %}{{ t.name|lower }}{% if not forloop.last %},{% endif %}{% endfor %}"
+>
     <td style="padding: 0 5px">
         {% if puzzle.is_meta %}
             <div id="meta-{{ puzzle.id }}-collapser" class="meta-collapser">

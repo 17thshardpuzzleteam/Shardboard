@@ -77,3 +77,27 @@ def add_tag(request):
     Puzzle.objects.filter(id=puzzle.id).update(update_flag=True)
 
     return HttpResponseRedirect('/')
+
+
+@require_POST
+def remove_tag(request):
+    data = request.POST.dict()
+    puzzle_id = data.get("puzzle_id")
+    tag_id = data.get("tag_id")
+
+    if not puzzle_id or not tag_id:
+        return HttpResponseRedirect('/')
+
+    puzzle = get_object_or_404(
+        Puzzle,
+        id=puzzle_id
+    )
+
+    PuzzleTag.objects.filter(
+        puzzle_id=puzzle.id,
+        tag_id=tag_id,
+    ).delete()
+
+    Puzzle.objects.filter(id=puzzle.id).update(update_flag=True)
+
+    return HttpResponseRedirect('/')

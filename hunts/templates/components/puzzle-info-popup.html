@@ -5,7 +5,28 @@
         {% if puzzle.tags.all %}
             <ul style="margin: 0.25rem 0 0 1rem; padding: 0;">
                 {% for tag in puzzle.tags.all %}
-                    <li>{{ tag.marker }} {{ tag.name }}</li>
+                    <li style="margin-bottom: 0.25rem;">
+                        {{ tag.marker }} {{ tag.name }}
+
+                        <form method="post"
+                              action="{% url 'remove_tag' %}"
+                              style="display: inline; margin-left: 0.5rem;">
+                            {% csrf_token %}
+                            <input type="hidden" name="puzzle_id" value="{{ puzzle.id }}"/>
+                            <input type="hidden" name="tag_id" value="{{ tag.id }}"/>
+
+                            <button type="submit"
+                                    style="border: 0;
+                                           background: transparent;
+                                           color: #c00;
+                                           cursor: pointer;
+                                           font-weight: bold;
+                                           padding: 0;"
+                                    title="Remove this tag">
+                                ✕
+                            </button>
+                        </form>
+                    </li>
                 {% empty %}
                     <li style="font-style: italic; color: #888;">No tags.</li>
                 {% endfor %}

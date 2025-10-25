@@ -27,6 +27,7 @@ urlpatterns = [
     path('add-puzzle', views.add_puzzle),
     path('solve-puzzle', views.solve_puzzle),
     path("puzzles/add_tag/", views.add_tag, name="add_tag"),
+    path("puzzles/remove_tag/", views.remove_tag, name="remove_tag"),
 
     path('login',
          auth_views.LoginView.as_view(template_name='login.html'),
