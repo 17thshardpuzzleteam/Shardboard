@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
@@ -9,17 +10,39 @@ from datetime import datetime
 
 @require_GET
 def index(request):
-    puzzles = Puzzle.objects.filter(hunt__web_user_id=request.user.id)
+    base_qs = (
+        Puzzle.objects
+        .filter(hunt__web_user_id=request.user.id)
+        .select_related('hunt')                 # FK: for guild_id in links
+        .prefetch_related('rounds', 'tags')     # M2Ms used in row/popup
+    )
+
+    feeders_qs = (
+        Puzzle.objects
+        .filter(hunt__web_user_id=request.user.id)
+        .select_related('hunt')
+        .prefetch_related('rounds', 'tags')
+        .order_by('-unlock_time')
+    )
+
+    # prefetch child puzzles for metas (single extra query, cached per meta set)
+    metas_qs = base_qs.filter(is_meta=True).order_by('-unlock_time').prefetch_related(
+        Prefetch('feeders', queryset=feeders_qs)
+    )
+
     puzzle_sets = []
-    for meta in puzzles.filter(is_meta=True).order_by('-unlock_time'):
+    for meta in metas_qs:
         puzzle_sets.append({
             'meta': meta,
-            'puzzles': meta.feeders.order_by('-unlock_time')
+            'puzzles': list(meta.feeders.all())  # already prefetched
         })
+
+    # non-meta roots (puzzles with no parent)
     puzzle_sets.append({
         'meta': None,
-        'puzzles': puzzles.filter(feeding__isnull=True, is_meta=False)
+        'puzzles': base_qs.filter(feeding__isnull=True, is_meta=False)
     })
+
     return render(request, 'index.html', {
         'puzzle_sets': puzzle_sets,
         'rounds': Round.objects.filter(hunt__web_user_id=request.user.id),
