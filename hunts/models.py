@@ -77,3 +77,32 @@ class Puzzle(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Tag Name')
+    marker = models.CharField(max_length=7, verbose_name='Marker')
+    role = models.CharField(max_length=255, verbose_name='Role To Alert')
+
+    def __str__(self):
+        return self.marker + ' ' + self.name
+
+
+class PuzzleTag(models.Model):
+    puzzle = models.ForeignKey('Puzzle', on_delete=models.CASCADE)
+    tag = models.ForeignKey('Tag', on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['puzzle', 'tag'], name='uniq_puzzle_tag'),
+        ]
+
+    def __str__(self):
+        return f'{self.tag.name} linked to {self.puzzle.name}'
+
+
+Puzzle.add_to_class(
+    'tags',
+    models.ManyToManyField('Tag', through='PuzzleTag', related_name='tagged_puzzles')
+)

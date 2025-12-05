@@ -26,6 +26,13 @@
             <option value="Unsolved">Unsolved</option>
             <option value="Solved">Solved</option>
         </select>
+        <label for="filter-tag">Tag:</label>
+        <select id="filter-tag">
+          <option value="__all">All</option>
+          {% for tag in all_tags %}
+            <option value="{{ tag.id }}">{{ tag.marker }} {{ tag.name }}</option>
+          {% endfor %}
+        </select>
     </div>
 </div>
 <script type="text/javascript">
@@ -56,6 +63,12 @@
         applyFilter();
     });
 
+    const filterTag = document.getElementById('filter-tag');
+    filterTag.addEventListener('change', () => {
+        setFilter('tag', filterTag.value);
+        applyFilter();
+    });
+
     function getFilters() {
         return JSON.parse(localStorage.getItem('filters') ?? '{}');
     }
@@ -70,11 +83,20 @@
         for (const child of document.getElementById('puzzle-table').children[0].children) {
             if (child.tagName === 'TR' && child.id !== 'puzzle-table-header') {
                 const cells = child.children;
+
+                const rowTagIds = (child.dataset.tagIds || '').split(',').filter(Boolean);
+                const rowTagNames = (child.dataset.tagNames || '').split(',').filter(Boolean);
+
+                const nameText = cells[2].innerText.trim().toLowerCase();
+                const tagNamesText = rowTagNames.join(' ').trim();
+                const searchable = (nameText + ' ' + tagNamesText).trim();
+
                 let show = true;
-                show &= matchesFilter('name', cells[2].innerText.trim().toLowerCase(), false);
+                show &= matchesFilter('name', searchable, false);
                 show &= matchesFilter('round', cells[1].textContent.trim(), false);
                 show &= matchesFilter('priority', cells[4].textContent.trim());
                 show &= matchesSolvedFilter(cells[4].textContent.trim());
+                show &= matchesTagFilter(rowTagIds);
 
                 if (show) {
                     child.classList.remove('filtered');
@@ -99,11 +121,19 @@
             (filters['solved'] === 'Solved' && item === 'Solved') || (filters['solved'] === 'Unsolved' && item !== 'Solved');
     }
 
+    function matchesTagFilter(rowTagIds) {
+        const filters = getFilters();
+        const selected = filters['tag'];
+        if (!selected || selected === '__all') return true;
+        return rowTagIds.includes(String(selected));
+    }
+
     window.onload = () => {
         const filters = getFilters();
         filterRound.value = filters['round'] ?? '__all';
         filterPriority.value = filters['priority'] ?? '__all';
         filterSolved.value = filters['solved'] ?? '__all';
+        if (filters['tag']) { filterTag.value = filters['tag']; }
         applyFilter();
     };
 </script>

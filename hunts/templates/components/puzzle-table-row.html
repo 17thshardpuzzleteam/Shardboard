@@ -1,5 +1,9 @@
 {% load static %}
-<tr class="puzzle-table-row{% if puzzle.is_meta %} meta meta-{{ puzzle.id }}{% endif %}{% if from_meta is not None %} from-meta-{{ from_meta.id }}{% endif %}">
+<tr
+        class="puzzle-table-row{% if puzzle.is_meta %} meta meta-{{ puzzle.id }}{% endif %}{% if from_meta is not None %} from-meta-{{ from_meta.id }}{% endif %}"
+        data-tag-ids="{% for t in puzzle.tags.all %}{{ t.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
+        data-tag-names="{% for t in puzzle.tags.all %}{{ t.name|lower }}{% if not forloop.last %},{% endif %}{% endfor %}"
+>
     <td style="padding: 0 5px">
         {% if puzzle.is_meta %}
             <div id="meta-{{ puzzle.id }}-collapser" class="meta-collapser">
@@ -51,29 +55,34 @@
         </div>
     </td>
     <td>
-        {% if puzzle.notes is not None %}
-            <div class="more-info">
-                <img id="puzzle-{{ puzzle.id }}-info" class="icon" src="{% static 'images/info_icon.png' %}" alt="More Info" title="More Info">
-                <div id="puzzle-{{ puzzle.id }}-info-popup" class="more-info-popup"></div>
-            </div>
-            <script type="text/javascript">
-                const popup{{ puzzle.id }} = document.getElementById('puzzle-{{ puzzle.id }}-info-popup');
-                popup{{ puzzle.id }}.innerHTML = '<b>Notes:</b><br>' + '{{ puzzle.notes }}'.split(';')
-                    .map(s => '- ' + s.trim())
-                    .join('<br>');
-                document.getElementById('puzzle-{{ puzzle.id }}-info').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (popup{{ puzzle.id }}.classList.contains('active')) {
-                        popup{{ puzzle.id }}.classList.remove('active');
-                    } else {
-                        closeAllInfos();
-                        popup{{ puzzle.id }}.classList.add('active');
-                    }
-                });
-                popup{{ puzzle.id }}.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                })
-            </script>
-        {% endif %}
+        <div class="more-info">
+        <img id="puzzle-{{ puzzle.id }}-info"
+             class="icon"
+             src="{% static 'images/info_icon.png' %}"
+             alt="More Info"
+             title="More Info">
+
+        {% include "components/puzzle-info-popup.html" with puzzle=puzzle all_tags=all_tags%}
+        </div>
+        <script type="text/javascript">
+        (function() {
+            const infoButton = document.getElementById('puzzle-{{ puzzle.id }}-info');
+            const popupEl    = document.getElementById('puzzle-{{ puzzle.id }}-info-popup');
+
+            infoButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (popupEl.classList.contains('active')) {
+                    popupEl.classList.remove('active');
+                } else {
+                    closeAllInfos();
+                    popupEl.classList.add('active');
+                }
+            });
+
+            popupEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        })();
+    </script>
     </td>
 </tr>
