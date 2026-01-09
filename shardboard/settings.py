@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mn2i7&$c%p3p9shz2)*gu1o^g33xc-4fkqc$r-xzpa^$_8r2+0'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'FIXME_SECRET_KEY_HERE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -69,6 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'shardboard.wsgi.application'
+ASGI_APPLICATION = 'gph.asgi.application'
 
 
 # Database
