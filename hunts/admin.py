@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 from django.forms import TextInput
-from .models import Hunt, Round, Puzzle
+from .models import Hunt, Round, Puzzle, Tag, PuzzleTag
 
 @admin.register(Hunt)
 class HuntAdmin(admin.ModelAdmin):
@@ -18,12 +18,19 @@ class RoundAdmin(admin.ModelAdmin):
         models.IntegerField: {'widget': TextInput()},
     }
 
+
+class PuzzleTagInline(admin.TabularInline):
+    model = PuzzleTag
+    extra = 1
+    autocomplete_fields = ("tag",)
+
 @admin.register(Puzzle)
 class PuzzleAdmin(admin.ModelAdmin):
-    list_display = ("get_rounds", "name", "answer", "priority")
+    list_display = ("get_rounds", "name", "answer", "priority", "get_tags")
     list_display_links = ('name',)
     list_filter = ("rounds", "priority", "is_meta")
     filter_horizontal = ("rounds", "feeders")
+    inlines = [PuzzleTagInline]
 
     formfield_overrides = {
         models.IntegerField: {'widget': TextInput()},
@@ -42,6 +49,23 @@ class PuzzleAdmin(admin.ModelAdmin):
     
     get_rounds.short_description = 'Round'
 
+    def get_tags(self, obj):
+        return ", ".join([f"{tag.marker} {tag.name}" for tag in obj.tags.all()])
+
+    get_tags.short_description = "Tags"
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ("marker", "name", "role")
+    search_fields = ("marker", "name", "role")
+
+@admin.register(PuzzleTag)
+class PuzzleTagAdmin(admin.ModelAdmin):
+    list_display = ("puzzle", "tag", "added_at")
+    list_filter = ("puzzle", "tag",)
+    search_fields = ("puzzle__name", "tag__name", "tag__marker")
+
 Hunt.__str__ = lambda self: f'{self.name}'
 Round.__str__ = lambda self: f'{self.marker} {self.name}'
 Puzzle.__str__ = lambda self: f'{"".join([round.marker for round in self.rounds.all()])} {self.name}'
+Tag.__str__ = lambda self: f'{self.marker} {self.name}'
