@@ -41,3 +41,4 @@ dump.rdb
 
 # Environment
 .env
+.DJANGO_SETTINGS
