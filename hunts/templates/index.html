@@ -24,16 +24,16 @@
                 {% if puzzle_set.meta is not None %}
                     {% include 'components/puzzle-table-row.html' with puzzle=puzzle_set.meta all_tags=all_tags %}
                     <script>
-                        const collapser = document.getElementById('meta-{{ puzzle_set.meta.id }}-collapser');
+                        const collapser{{ puzzle_set.meta.id }} = document.getElementById('meta-{{ puzzle_set.meta.id }}-collapser');
                         function toggleCollapse(forceOpen) {
                             const puzzles = document.getElementsByClassName('from-meta-{{ puzzle_set.meta.id }}');
-                            if (collapser.classList.contains('collapsed') || forceOpen === true) {
-                                collapser.classList.remove('collapsed');
+                            if (collapser{{ puzzle_set.meta.id }}.classList.contains('collapsed') || forceOpen === true) {
+                                collapser{{ puzzle_set.meta.id }}.classList.remove('collapsed');
                                 for (const puzzle of puzzles) {
                                     puzzle.classList.remove('collapsed');
                                 }
                             } else {
-                                collapser.classList.add('collapsed');
+                                collapser{{ puzzle_set.meta.id }}.classList.add('collapsed');
                                 for (const puzzle of puzzles) {
                                     puzzle.classList.add('collapsed');
                                 }
@@ -41,7 +41,7 @@
                             updateSummary();
                             updateMetaSubsets();
                         }
-                        collapser.addEventListener('click', toggleCollapse);
+                        collapser{{ puzzle_set.meta.id }}.addEventListener('click', toggleCollapse);
                     </script>
                 {% endif %}
                 {% for puzzle in puzzle_set.puzzles %}
