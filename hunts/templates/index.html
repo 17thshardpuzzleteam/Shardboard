@@ -42,6 +42,7 @@
                             updateMetaSubsets();
                         }
                         collapser{{ puzzle_set.meta.id }}.addEventListener('click', toggleCollapse);
+                        toggleCollapse();
                     </script>
                 {% endif %}
                 {% for puzzle in puzzle_set.puzzles %}
