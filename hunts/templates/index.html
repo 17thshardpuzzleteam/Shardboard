@@ -42,7 +42,6 @@
                             updateMetaSubsets();
                         }
                         collapser{{ puzzle_set.meta.id }}.addEventListener('click', toggleCollapse);
-                        toggleCollapse();
                     </script>
                 {% endif %}
                 {% for puzzle in puzzle_set.puzzles %}
@@ -132,6 +131,11 @@
                 closeAllInfos();
             })
             closeAllInfos();
+
+            // close all the collapsers
+            for (const col of document.getElementsByClassName('meta-collapser')) {
+                col.click();
+            }
         </script>
     {% else %}
     <h1>Welcome to Shardboard!</h1>
