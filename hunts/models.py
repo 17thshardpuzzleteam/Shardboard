@@ -61,7 +61,7 @@ class Puzzle(models.Model):
     solve_time = models.DateTimeField(verbose_name='Solve Time', null=True)
     is_meta = models.BooleanField(verbose_name='Is Meta?', default=False)
     hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
-    rounds = models.ManyToManyField(Round)
+    round = models.ForeignKey(Round, on_delete=models.CASCADE)
     feeders = models.ManyToManyField('self', related_name='feeding', symmetrical=False)
     update_flag = models.BooleanField(default=False, verbose_name='Update Flag')
 

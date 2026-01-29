@@ -14,14 +14,14 @@ def index(request):
         Puzzle.objects
         .filter(hunt__web_user_id=request.user.id)
         .select_related('hunt')                 # FK: for guild_id in links
-        .prefetch_related('rounds', 'tags')     # M2Ms used in row/popup
+        .prefetch_related('tags')               # M2Ms used in row/popup
     )
 
     feeders_qs = (
         Puzzle.objects
         .filter(hunt__web_user_id=request.user.id)
         .select_related('hunt')
-        .prefetch_related('rounds', 'tags')
+        .prefetch_related('tags')
         .order_by('-unlock_time')
     )
 
@@ -68,9 +68,9 @@ def add_puzzle(request):
     hunt = Hunt.objects.get(web_user_id=request.user.id)
     pending_puzzles = Puzzle.objects.filter(channel_id__lt=0, hunt_id=hunt.id)
     # channel id doesn't actually matter here, we just want it to be unique per-hunt
-    new_puzzle = Puzzle.objects.create(name=data['name'], channel_id=-(len(pending_puzzles) + 1), hunt_id=hunt.id,
-                                       spreadsheet_link='', unlock_time=datetime.now(), priority='New', update_flag=True)
-    new_puzzle.rounds.add(Round.objects.filter(id=data['rounds']).first())
+    Puzzle.objects.create(name=data['name'], round_id=data['round'], channel_id=-(len(pending_puzzles) + 1),
+                          hunt_id=hunt.id, spreadsheet_link='', unlock_time=datetime.now(), priority='New',
+                          update_flag=True)
     return HttpResponseRedirect('/')
 
 

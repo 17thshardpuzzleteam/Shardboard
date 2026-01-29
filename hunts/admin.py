@@ -3,11 +3,13 @@ from django.db import models
 from django.forms import TextInput
 from .models import Hunt, Round, Puzzle, Tag, PuzzleTag
 
+
 @admin.register(Hunt)
 class HuntAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.IntegerField: {'widget': TextInput()},
     }
+
 
 @admin.register(Round)
 class RoundAdmin(admin.ModelAdmin):
@@ -24,12 +26,13 @@ class PuzzleTagInline(admin.TabularInline):
     extra = 1
     autocomplete_fields = ("tag",)
 
+
 @admin.register(Puzzle)
 class PuzzleAdmin(admin.ModelAdmin):
-    list_display = ("get_rounds", "name", "answer", "priority", "get_tags")
+    list_display = ("round", "name", "answer", "priority", "get_tags")
     list_display_links = ('name',)
-    list_filter = ("rounds", "priority", "is_meta")
-    filter_horizontal = ("rounds", "feeders")
+    list_filter = ("round", "priority", "is_meta")
+    filter_horizontal = ("feeders",)
     inlines = [PuzzleTagInline]
 
     formfield_overrides = {
@@ -44,20 +47,17 @@ class PuzzleAdmin(admin.ModelAdmin):
         form.base_fields['feeders'].required = False
         return form
 
-    def get_rounds(self, obj):
-        return "".join([round.marker for round in obj.rounds.all()])
-    
-    get_rounds.short_description = 'Round'
-
     def get_tags(self, obj):
         return ", ".join([f"{tag.marker} {tag.name}" for tag in obj.tags.all()])
 
     get_tags.short_description = "Tags"
 
+
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ("marker", "name", "role")
     search_fields = ("marker", "name", "role")
+
 
 @admin.register(PuzzleTag)
 class PuzzleTagAdmin(admin.ModelAdmin):
@@ -65,7 +65,8 @@ class PuzzleTagAdmin(admin.ModelAdmin):
     list_filter = ("puzzle", "tag",)
     search_fields = ("puzzle__name", "tag__name", "tag__marker")
 
+
 Hunt.__str__ = lambda self: f'{self.name}'
 Round.__str__ = lambda self: f'{self.marker} {self.name}'
-Puzzle.__str__ = lambda self: f'{"".join([round.marker for round in self.rounds.all()])} {self.name}'
+Puzzle.__str__ = lambda self: f'{self.round.marker} {self.name}'
 Tag.__str__ = lambda self: f'{self.marker} {self.name}'
