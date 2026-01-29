@@ -12,14 +12,12 @@
         {% endif %}
     </td>
     <td>
-        {% for round in puzzle.rounds.all %}
-            {{ round.marker }}
-        {% endfor %}
+        {{ puzzle.round.marker }}
     </td>
     <td>
         <div class="puzzle-name">{{ puzzle.name }}</div>
         {% if puzzle.is_meta %}
-            <div class="puzzle-filler">(This metapuzzle does not match the current filters.)</div>
+            <div class="puzzle-filler">(This metapuzzle does not match the current filters, but some of its feeders do.)</div>
         {% endif %}
     </td>
     <td>
